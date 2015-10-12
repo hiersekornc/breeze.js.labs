@@ -120,13 +120,7 @@
             // directive is on an input element, so use templates for
             // required and validation display
             function linkForInput() {
-                var valTemplate = config.zValidateTemplate;
-                var requiredTemplate = config.zRequiredTemplate || '';
-                var decorator = angular.element('<span class="z-decorator"></span>');
-                element.after(decorator);
 
-                // unwrap bound elements
-                decorator = decorator[0];
                 scope.$watch(info.getValErrs, valErrsChanged);
 
                 // update the message in the validation template
@@ -141,10 +135,7 @@
                         domEl.setCustomValidity(newValue || '');
                     }
 
-                    var errorHtml = newValue ? valTemplate.replace(/%error%/, newValue) : "";
-                    var isRequired = info.getIsRequired();
-                    var requiredHtml = isRequired ? requiredTemplate : '';
-                    decorator.innerHTML = (isRequired || !!errorHtml) ? requiredHtml + errorHtml : "";
+                    element.attr("uib-tooltip", newValue)
                 }
             }
 
@@ -406,7 +397,7 @@
         // The default template for indicating required fields.
         // Assumes "icon-asterisk-invalid" from bootstrap css
         this.zRequiredTemplate =
-            '<span class="icon-asterisk-invalid z-required" title="Required">*</span>';
+            '';
 
         this.$get = function () {
             return {
@@ -414,6 +405,6 @@
                 zRequiredTemplate: this.zRequiredTemplate
             };
         };
-    };
+    }
 
 })();
